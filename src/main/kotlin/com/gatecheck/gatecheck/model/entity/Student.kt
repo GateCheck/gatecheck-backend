@@ -2,8 +2,10 @@ package com.gatecheck.gatecheck.model.entity
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.mapping.Document
 import java.util.*
 
+@Document(collection = "students")
 data class Student(
         @Id override val id: UUID,
         @JsonProperty override val name: String,

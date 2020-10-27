@@ -6,8 +6,10 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import org.jetbrains.annotations.NotNull
 import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.mapping.Document
 import java.util.*
 
+@Document(collection = "requests")
 data class Request @JsonCreator constructor(
         @Id val id: UUID,
         @JsonProperty val title: String,

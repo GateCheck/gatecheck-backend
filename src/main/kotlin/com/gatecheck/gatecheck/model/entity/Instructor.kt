@@ -1,8 +1,10 @@
 package com.gatecheck.gatecheck.model.entity
 
 import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.mapping.Document
 import java.util.*
 
+@Document(collection = "instructors")
 data class Instructor(
         @Id override val id: UUID,
         override val name: String,
