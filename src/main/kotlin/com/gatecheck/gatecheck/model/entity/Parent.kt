@@ -9,8 +9,8 @@ data class Parent(
         override val username: String,
         override val email: String,
         override val password: String,
-        override val profilePath: String,
-        val children: Set<UUID>
+        override val profilePath: String?,
+        val children: Set<UUID>? = setOf()
 ) : User(
         id,
         name,

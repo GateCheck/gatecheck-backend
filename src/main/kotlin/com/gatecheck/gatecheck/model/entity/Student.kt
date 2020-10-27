@@ -1,18 +1,19 @@
 package com.gatecheck.gatecheck.model.entity
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import org.springframework.data.annotation.Id
 import java.util.*
 
 data class Student(
         @Id override val id: UUID,
-        override val name: String,
-        override val username: String,
-        override val email: String,
-        override val password: String,
-        override val profilePath: String,
-        val instructors: Set<UUID>,
-        val parents: Set<UUID>,
-        val school: String
+        @JsonProperty override val name: String,
+        @JsonProperty override val username: String,
+        @JsonProperty override val email: String,
+        @JsonProperty override val password: String,
+        @JsonProperty override val profilePath: String?,
+        @JsonProperty val instructors: Set<UUID>? = setOf(),
+        @JsonProperty val parents: Set<UUID>? = setOf(),
+        @JsonProperty val school: String
 ) : User(
         id,
         name,

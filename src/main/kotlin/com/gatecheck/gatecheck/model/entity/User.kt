@@ -1,15 +1,17 @@
 package com.gatecheck.gatecheck.model.entity
 
+import com.fasterxml.jackson.annotation.JsonProperty
+import org.springframework.data.annotation.Id
 import java.util.*
 
 
 abstract class User(
-        open val id: UUID,
-        open val name: String,
-        open val username: String,
-        open val email: String,
-        open val password: String,
-        open val profilePath: String
+        @Id open val id: UUID,
+        @JsonProperty open val name: String,
+        @JsonProperty open val username: String,
+        @JsonProperty open val email: String,
+        @JsonProperty open val password: String,
+        @JsonProperty open val profilePath: String?
 ) {
     constructor(id: UUID, user: User) : this(id, user.name, user.username, user.email, user.password, user.profilePath)
 }

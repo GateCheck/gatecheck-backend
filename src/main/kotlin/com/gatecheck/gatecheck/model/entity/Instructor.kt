@@ -9,9 +9,9 @@ data class Instructor(
         override val username: String,
         override val email: String,
         override val password: String,
-        override val profilePath: String,
-        val students: Set<UUID>,
-        val schools: Set<String>
+        override val profilePath: String?,
+        val students: Set<UUID>? = setOf(),
+        val schools: Set<String>? = setOf()
 ) : User(
         id,
         name,
