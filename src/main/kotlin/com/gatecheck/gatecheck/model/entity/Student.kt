@@ -1,18 +1,20 @@
 package com.gatecheck.gatecheck.model.entity
 
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import org.springframework.data.annotation.Id
+import org.springframework.data.annotation.TypeAlias
 import org.springframework.data.mongodb.core.mapping.Document
 import java.util.*
 
-@Document(collection = "students")
-data class Student(
-        @Id override val id: UUID,
-        @JsonProperty override val name: String,
-        @JsonProperty override val username: String,
-        @JsonProperty override val email: String,
-        @JsonProperty override val password: String,
-        @JsonProperty override val profilePath: String?,
+@Document(collection = "users")
+@TypeAlias("student")
+class Student @JsonCreator constructor(
+        @JsonProperty id: UUID,
+        @JsonProperty name: String,
+        @JsonProperty username: String,
+        @JsonProperty email: String,
+        @JsonProperty password: String,
+        @JsonProperty profilePath: String?,
         @JsonProperty val instructors: Set<UUID>? = setOf(),
         @JsonProperty val parents: Set<UUID>? = setOf(),
         @JsonProperty val school: String
