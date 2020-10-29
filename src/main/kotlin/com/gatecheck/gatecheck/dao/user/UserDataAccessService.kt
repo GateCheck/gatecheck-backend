@@ -28,11 +28,11 @@ class UserDataAccessService @Autowired constructor(
         TODO("Not yet implemented")
     }
 
-    override fun updateUser(user: User): User {
+    override fun updateUser(updatedUser: User): User {
         TODO("Not yet implemented")
     }
 
-    override fun updateUser(userId: UUID, user: User): User {
+    override fun updateUser(userId: UUID, updatedUser: User): User {
         TODO("Not yet implemented")
     }
 }

@@ -9,46 +9,13 @@ import java.util.*
 
 @Service
 class UserService @Autowired constructor(@Qualifier("userDao") private val userDao: UserDao) {
-    /**
-     * Get the currently logged in user.
-     * @return Currently logged in user. If no user is logged in Optional is empty.
-     */
-    fun getUser(): Optional<User> {
-        return userDao.getUser()
-    }
+    fun getUser(): Optional<User> = userDao.getUser()
 
-    /**
-     * Gets many users simultaneously. Only for instructors, they can only get the info of their students.
-     * @param user UUID's to all users to get. filters out those the currently logged in user doesn't have access to
-     * @param allUsers If true, ignores `user` parameter and gets all users the currently logged in user has access to
-     * @return Set of all users the currently logged in user is allowed to access with applied filters.
-     */
-    fun getUser(vararg user: UUID, allUsers: Boolean): Set<User> {
-        return userDao.getUser(*user, allUsers = allUsers)
-    }
+    fun getUser(vararg user: UUID, allUsers: Boolean): Set<User> = userDao.getUser(*user, allUsers = allUsers)
 
-    /**
-     * Sends email the currently logged in user with link that will delete account
-     * @return User that might be deleted
-     */
-    fun deleteUser(): User {
-        return userDao.deleteUser()
-    }
+    fun deleteUser(): User = userDao.deleteUser()
 
-    /**
-     * Update any field of currently logged in user besides adding instructors or parents.
-     * Instructors can add students to themselves since they are trusted. Can't update UUID.
-     * @return updated user
-     */
-    fun updateUser(user: User): User {
-        return userDao.updateUser(user)
-    }
+    fun updateUser(updatedUser: User): User = userDao.updateUser(updatedUser)
 
-    /**
-     * Update any field besides contact information. Only for Instructor of user passed, Can't update UUID.
-     * @return updated user.
-     */
-    fun updateUser(userId: UUID, user: User): User {
-        return userDao.updateUser(userId, user)
-    }
+    fun updateUser(userId: UUID, updatedUser: User): User = userDao.updateUser(userId, updatedUser)
 }

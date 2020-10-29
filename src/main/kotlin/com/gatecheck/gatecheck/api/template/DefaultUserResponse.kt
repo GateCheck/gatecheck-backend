@@ -6,5 +6,6 @@ import com.gatecheck.gatecheck.model.entity.User
 
 data class DefaultUserResponse @JsonCreator constructor(
         @JsonProperty val success: Boolean,
-        @JsonProperty val user: User?
+        @JsonProperty val user: User? = null,
+        @JsonProperty val users: Set<User>? = null
 )

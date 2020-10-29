@@ -29,11 +29,11 @@ interface UserDao {
      * Instructors can add students to themselves since they are trusted. Can't update UUID.
      * @return updated user
      */
-    fun updateUser(user: User): User
+    fun updateUser(updatedUser: User): User
 
     /**
      * Update any field besides contact information. Only for Instructor of user passed, Can't update UUID.
      * @return updated user.
      */
-    fun updateUser(userId: UUID, user: User): User
+    fun updateUser(userId: UUID, updatedUser: User): User
 }
