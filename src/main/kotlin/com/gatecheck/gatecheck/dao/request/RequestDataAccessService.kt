@@ -11,7 +11,7 @@ import java.util.*
 class RequestDataAccessService @Autowired constructor(
     private val repository:RequestRepository
 ): RequestDao{
-    override fun GetRequests(Messages: Boolean, Amount: Int, Index:Int ):Set<Request>{
+    override fun GetRequests(user:UUID,Messages: Boolean, Amount: Int, Index:Int ):Set<Request>{
         TODO("Not yet implemented")
     }
     override fun AddNewRequest(request:Request):Request{
