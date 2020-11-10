@@ -7,14 +7,15 @@ import org.springframework.stereotype.Repository
 import java.util.*
 
 
-@Repository("requestDAO")
+@Repository("requestDao")
 class RequestDataAccessService @Autowired constructor(
-    private val repository:RequestRepository
-): RequestDao{
-    override fun GetRequests(user:UUID,Messages: Boolean, Amount: Int, Index:Int ):Set<Request>{
+        private val repository: RequestRepository
+) : RequestDao {
+    override fun getRequests(user: UUID, Messages: Boolean, Amount: Int, Index: Int): Set<Request> {
         TODO("Not yet implemented")
     }
-    override fun AddNewRequest(request:Request):Request{
+
+    override fun addNewRequest(request: Request): Request {
         TODO("Not yet implemented")
     }
 }

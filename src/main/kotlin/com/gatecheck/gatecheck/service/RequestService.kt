@@ -9,8 +9,8 @@ import java.util.*
 
 
 @Service
-class RequestService @Autowired construct(@Qualifier("requestDao") private val requestDao:RequestDao){
-    fun GetRequests(user:UUID,Messages: Boolean, Amount: Int, Index:Int ):Set<Request>= requestDao.GetRequests(user,Messages,Amount,Index)
+class RequestService @Autowired constructor(@Qualifier("requestDao") private val requestDao: RequestDao) {
+    fun getRequests(user: UUID, Messages: Boolean, Amount: Int, Index: Int): Set<Request> = requestDao.getRequests(user, Messages, Amount, Index)
 
-    fun AddNewRequest(request:Request):Request=requestDao.AddNewRequest(request)
+    fun addNewRequest(request: Request): Request = requestDao.addNewRequest(request)
 }
