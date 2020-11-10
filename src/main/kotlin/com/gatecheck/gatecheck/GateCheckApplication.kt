@@ -12,7 +12,8 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
     "com.gatecheck.gatecheck.dao",
     "com.gatecheck.gatecheck.config",
     "com.gatecheck.gatecheck.service",
-    "com.gatecheck.gatecheck.security"
+    "com.gatecheck.gatecheck.security",
+    "com.gatecheck.gatecheck.utils"
 ])
 @EnableMongoRepositories(repositoryBaseClass = InheritanceAwareMongoRepository::class,
         repositoryFactoryBeanClass = InheritanceAwareMongoRepositoryFactoryBean::class)
