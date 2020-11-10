@@ -32,7 +32,7 @@ class AuthController @Autowired constructor(private val authService: AuthService
         return try {
             AuthResponse(authService.register(user), true)
         } catch (e: ResponseStatusException) {
-            SuccessResponse(false, e.status.value(), e.reason)
+            SuccessResponse(false, e.status.value(), e.reason ?: "")
         } catch (e: Exception) {
             SuccessResponse(false, 401, if (e.message?.contains("username") == true) "Username already exists!" else "Email already exists!")
         }
