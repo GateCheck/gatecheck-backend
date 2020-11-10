@@ -19,6 +19,6 @@ data class Request @JsonCreator constructor(
         @JsonProperty val details: String,
         @JsonProperty val status: RequestStatus? = RequestStatus.Pending,
         @JsonProperty val replies: List<Message>? = listOf(),
-        @JsonProperty val sender: UUID,
+        @JsonProperty var sender: UUID,
         @JsonProperty val receivers: Set<UUID>
 )
