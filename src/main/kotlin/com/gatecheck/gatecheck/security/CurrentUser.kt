@@ -33,14 +33,15 @@ class CurrentUser(
         val isNotLoggedIn: Boolean get() = !isLoggedIn
         val currentUser: CurrentUser
             get() = SecurityContextHolder.getContext().authentication.principal as CurrentUser
-        val currentUserId get() = currentUser.dbUser.id
-        val currentUserIdOrError: UUID
+        val id get() = currentUser.dbUser.id
+        val idOrError: UUID
             get() {
                 if (isNotLoggedIn) throw ResponseStatusException(HttpStatus.UNAUTHORIZED, "Must be logged in!")
-                return currentUserId
+                return id
             }
-        val currentUserIsStudent: Boolean get() = currentUser.authorityMap.containsKey("Student")
-        val currentUserIsParent: Boolean get() = currentUser.authorityMap.containsKey("Parent")
-        val currentUserIsInstructor: Boolean get() = currentUser.authorityMap.containsKey("Instructor")
+        val isStudent: Boolean get() = currentUser.authorityMap.containsKey("Student")
+        val isParent: Boolean get() = currentUser.authorityMap.containsKey("Parent")
+        val isInstructor: Boolean get() = currentUser.authorityMap.containsKey("Instructor")
+        val isAdmin: Boolean get() = currentUser.authorityMap.containsKey("Admin")
     }
 }

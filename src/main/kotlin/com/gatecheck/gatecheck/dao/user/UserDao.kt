@@ -6,7 +6,7 @@ import java.util.*
 interface UserDao {
     /**
      * Get the currently logged in user.
-     * @return Currently logged in user. If no user is logged in Optional is empty.
+     * @return Currently logged in user.
      */
     fun getUser(): Optional<User>
 
@@ -29,11 +29,11 @@ interface UserDao {
      * Instructors can add students to themselves since they are trusted. Can't update UUID.
      * @return updated user
      */
-    fun updateUser(updatedUser: User): User
+    fun <T : User> updateUser(updatedUser: T): User
 
     /**
      * Update any field besides contact information. Only for Instructor of user passed, Can't update UUID.
      * @return updated user.
      */
-    fun updateUser(userId: UUID, updatedUser: User): User
+    fun <T : User> updateUser(userId: UUID, updatedUser: T): Optional<User>
 }
