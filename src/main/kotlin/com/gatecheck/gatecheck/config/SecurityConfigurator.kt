@@ -1,6 +1,7 @@
 package com.gatecheck.gatecheck.config
 
 import com.gatecheck.gatecheck.security.GateCheckUserDetailsService
+import com.gatecheck.gatecheck.security.JwtFilter
 import com.gatecheck.gatecheck.utils.Routes
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
@@ -14,11 +15,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @EnableWebSecurity
 @Configuration
 class SecurityConfigurator @Autowired constructor(
-        private val userDetailsService: GateCheckUserDetailsService
+        private val userDetailsService: GateCheckUserDetailsService,
+        private val jwtFilter: JwtFilter
 ) : WebSecurityConfigurerAdapter() {
     override fun configure(auth: AuthenticationManagerBuilder) {
         auth.userDetailsService(userDetailsService)
@@ -42,5 +45,6 @@ class SecurityConfigurator @Autowired constructor(
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter::class.java)
     }
 }
