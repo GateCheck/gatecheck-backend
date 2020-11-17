@@ -1,5 +1,6 @@
 package com.gatecheck.gatecheck.dao.user
 
+import com.gatecheck.gatecheck.api.template.UserUpdate
 import com.gatecheck.gatecheck.model.entity.Instructor
 import com.gatecheck.gatecheck.model.entity.Student
 import com.gatecheck.gatecheck.model.entity.User
@@ -49,29 +50,33 @@ class UserDataAccessService @Autowired constructor(
         return CurrentUser.currentUser.dbUser
     }
 
-    override fun <T : User> updateUser(updatedUser: T): User {
-        val query = Query.query(Criteria.where("_id").`is`(updatedUser.id))
+    override fun updateUser(updatedUser: UserUpdate): User {
+        val query = Query.query(Criteria.where("_id").`is`(CurrentUser.id))
         val update = Update()
-                .set("username", updatedUser.username)
-                .set("email", updatedUser.email)
-                .set("password", passwordEncoder.encode(updatedUser.password))
+                .set("username", updatedUser.username ?: CurrentUser.currentUser.dbUser.username)
+                .set("email", updatedUser.email ?: CurrentUser.currentUser.dbUser.email)
+
+        updatedUser.password?.let { update.set("password", passwordEncoder.encode(it)) }
         if (CurrentUser.isInstructor && CurrentUser.isAdmin) {
-            if ((updatedUser as Instructor).schools != null) update.set("school", (updatedUser as Instructor).schools)
+            if (updatedUser.school != null) update.set("school", updatedUser.school)
         }
 
         mongoOperations.updateFirst(query, update, "users")
         return repository.findById(CurrentUser.id).get()
     }
 
-    override fun <T : User> updateUser(userId: UUID, updatedUser: T): Optional<User> {
+    override fun updateUser(userId: UUID, updatedUser: UserUpdate): Optional<User> {
         if (!CurrentUser.isInstructor || !CurrentUser.isAdmin) return Optional.empty()
         if (!repository.existsById(userId)) return Optional.empty()
         val query = Query.query(Criteria.where("_id").`is`(userId))
         val update = Update()
-                .set("name", updatedUser.name)
-                .set("password", updatedUser.password)
-        if (updatedUser is Student) {
-            update.set("school", updatedUser.school)
+                .set("name", updatedUser.name ?: CurrentUser.currentUser.dbUser.name)
+
+        updatedUser.password?.let { update.set("password", passwordEncoder.encode(it)) }
+        val isStudent = studentRepository.existsById(userId)
+        if (updatedUser.school != null && (isStudent || instructorRepository.existsById(userId))) {
+            if (isStudent) update.set("school", updatedUser.school.toList()[0])
+            else update.set("school", updatedUser.school)
         }
 
         mongoOperations.updateFirst(query, update, "users")

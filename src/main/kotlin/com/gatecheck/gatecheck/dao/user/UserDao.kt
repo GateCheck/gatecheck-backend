@@ -1,5 +1,6 @@
 package com.gatecheck.gatecheck.dao.user
 
+import com.gatecheck.gatecheck.api.template.UserUpdate
 import com.gatecheck.gatecheck.model.entity.User
 import java.util.*
 
@@ -29,11 +30,11 @@ interface UserDao {
      * Instructors can add students to themselves since they are trusted. Can't update UUID.
      * @return updated user
      */
-    fun <T : User> updateUser(updatedUser: T): User
+    fun updateUser(updatedUser: UserUpdate): User
 
     /**
      * Update any field besides contact information. Only for Instructor of user passed, Can't update UUID.
      * @return updated user.
      */
-    fun <T : User> updateUser(userId: UUID, updatedUser: T): Optional<User>
+    fun updateUser(userId: UUID, updatedUser: UserUpdate): Optional<User>
 }

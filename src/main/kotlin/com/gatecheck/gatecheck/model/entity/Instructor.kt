@@ -18,7 +18,7 @@ class Instructor @JsonCreator constructor(
         @Size(min = 8, max = 32, message = "Password must be between 8 and 32 characters.") @JsonProperty password: String,
         @JsonProperty profilePath: String?,
         @JsonProperty val students: Set<UUID>? = setOf(),
-        @JsonProperty val schools: Set<String>? = setOf()
+        @JsonProperty val school: Set<String>? = setOf()
 ) : User(
         id,
         name,

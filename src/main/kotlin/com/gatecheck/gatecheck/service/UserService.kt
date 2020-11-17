@@ -1,5 +1,6 @@
 package com.gatecheck.gatecheck.service
 
+import com.gatecheck.gatecheck.api.template.UserUpdate
 import com.gatecheck.gatecheck.dao.user.UserDao
 import com.gatecheck.gatecheck.model.entity.User
 import org.springframework.beans.factory.annotation.Autowired
@@ -15,7 +16,7 @@ class UserService @Autowired constructor(@Qualifier("userDao") private val userD
 
     fun deleteUser(): User = userDao.deleteUser()
 
-    fun updateUser(updatedUser: User): User = userDao.updateUser(updatedUser)
+    fun updateUser(updatedUser: UserUpdate): User = userDao.updateUser(updatedUser)
 
-    fun updateUser(userId: UUID, updatedUser: User): User = userDao.updateUser(userId, updatedUser)
+    fun updateUser(userId: UUID, updatedUser: UserUpdate): Optional<User> = userDao.updateUser(userId, updatedUser)
 }
