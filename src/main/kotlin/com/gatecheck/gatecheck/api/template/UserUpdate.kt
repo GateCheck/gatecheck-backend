@@ -13,5 +13,6 @@ data class UserUpdate @JsonCreator constructor(
         @JsonProperty val school: Set<String>?,
         @JsonProperty val instructors: Set<UUID>?,
         @JsonProperty val parents: Set<UUID>?,
-        @JsonProperty val students: Set<UUID>?
+        @JsonProperty val students: Set<UUID>?,
+        @JsonProperty val language: String?
 )

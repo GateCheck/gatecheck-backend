@@ -17,6 +17,7 @@ class Instructor @JsonCreator constructor(
         @Email(message = "Must provide valid email.") @JsonProperty email: String,
         @Size(min = 8, max = 32, message = "Password must be between 8 and 32 characters.") @JsonProperty password: String,
         @JsonProperty profilePath: String?,
+        @JsonProperty language: String,
         @JsonProperty val students: Set<UUID>? = setOf(),
         @JsonProperty val school: Set<String>? = setOf()
 ) : User(
@@ -25,13 +26,15 @@ class Instructor @JsonCreator constructor(
         username,
         email,
         password,
-        profilePath
+        profilePath,
+        language
 ) {
     constructor(
             id: UUID,
             user: User,
             students: Set<UUID> = setOf(),
-            schools: Set<String> = setOf()
+            schools: Set<String> = setOf(),
+            language: String = ""
     ) : this(
             id,
             user.name,
@@ -39,6 +42,7 @@ class Instructor @JsonCreator constructor(
             user.email,
             user.password,
             user.profilePath,
+            language,
             students,
             schools
     )

@@ -4,13 +4,14 @@ import com.gatecheck.gatecheck.api.template.DefaultRequestResponse
 import com.gatecheck.gatecheck.model.Request
 import com.gatecheck.gatecheck.security.CurrentUser
 import com.gatecheck.gatecheck.service.RequestService
+import com.gatecheck.gatecheck.utils.Routes
 import org.jetbrains.annotations.NotNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/v1/request")
+@RequestMapping(Routes.BASE + Routes.Request.BASE)
 class RequestController @Autowired constructor(private val requestService: RequestService) {
     @GetMapping
     fun getRequests(

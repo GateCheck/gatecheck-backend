@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.springframework.data.annotation.TypeAlias
 import org.springframework.data.mongodb.core.mapping.Document
+import org.springframework.data.mongodb.core.mapping.Language
 import java.util.*
 import javax.validation.constraints.Email
 import javax.validation.constraints.Size
@@ -17,6 +18,7 @@ class Student @JsonCreator constructor(
         @Email(message = "Must provide valid email.") @JsonProperty email: String,
         @Size(min = 8, max = 32, message = "Password must be between 8 and 32 characters.") @JsonProperty password: String,
         @JsonProperty profilePath: String?,
+        @JsonProperty language: String,
         @JsonProperty val instructors: Set<UUID>? = setOf(),
         @JsonProperty val parents: Set<UUID>? = setOf(),
         @JsonProperty val school: String
@@ -26,14 +28,16 @@ class Student @JsonCreator constructor(
         username,
         email,
         password,
-        profilePath
+        profilePath,
+        language
 ) {
     constructor(
             id: UUID,
             user: User,
             instructors: Set<UUID> = setOf(),
             parents: Set<UUID> = setOf(),
-            school: String = ""
+            school: String = "",
+            language: String = ""
     ) : this(
             id,
             user.name,
@@ -41,8 +45,9 @@ class Student @JsonCreator constructor(
             user.email,
             user.password,
             user.profilePath,
+            school,
             instructors,
             parents,
-            school
+            language
     )
 }

@@ -16,9 +16,10 @@ abstract class User(
         @Indexed(unique = true) @Size(min = 3, max = 16, message = "Name must be between 3 and 16 characters.") @JsonProperty open val username: String,
         @Indexed(unique = true) @Email(message = "Must provide valid email.") @JsonProperty open val email: String,
         @Size(min = 8, max = 32, message = "Password must be between 8 and 32 characters.") @JsonProperty open var password: String,
-        @Indexed(unique = true) @JsonProperty open var profilePath: String?
+        @Indexed(unique = true) @JsonProperty open var profilePath: String?,
+        @JsonProperty(required = false) val language: String?
 ) {
-    constructor(id: UUID, user: User) : this(id, user.name, user.username, user.email, user.password, user.profilePath)
+    constructor(id: UUID, user: User) : this(id, user.name, user.username, user.email, user.password, user.profilePath, user.language)
 
     override fun toString(): String {
         return "${this::class.simpleName}(id=$id, name='$name', username='$username', email='$email', password='$password', profilePath=$profilePath)"

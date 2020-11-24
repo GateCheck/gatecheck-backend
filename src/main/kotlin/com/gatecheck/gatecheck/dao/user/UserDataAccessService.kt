@@ -54,6 +54,7 @@ class UserDataAccessService @Autowired constructor(
         val update = Update()
                 .set("username", updatedUser.username ?: CurrentUser.currentUser.dbUser.username)
                 .set("email", updatedUser.email ?: CurrentUser.currentUser.dbUser.email)
+                .set("language", updatedUser.language ?: CurrentUser.currentUser.dbUser.language)
 
         updatedUser.password?.let { update.set("password", passwordEncoder.encode(it)) }
         if (CurrentUser.isInstructor && CurrentUser.isAdmin) {
@@ -67,9 +68,11 @@ class UserDataAccessService @Autowired constructor(
     override fun updateUser(userId: UUID, updatedUser: UserUpdate): Optional<User> {
         if (!CurrentUser.isInstructor || !CurrentUser.isAdmin) return Optional.empty()
         if (!repository.existsById(userId)) return Optional.empty()
+        val user: User? = repository.findById(userId).orElse(null)
         val query = Query.query(Criteria.where("_id").`is`(userId))
         val update = Update()
-                .set("name", updatedUser.name ?: CurrentUser.currentUser.dbUser.name)
+                .set("name", updatedUser.name ?: user?.name)
+                .set("language", updatedUser.language ?: user?.language)
 
         updatedUser.password?.let { update.set("password", passwordEncoder.encode(it)) }
         val isStudent = studentRepository.existsById(userId)
