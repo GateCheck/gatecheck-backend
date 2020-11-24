@@ -1,6 +1,5 @@
 package com.gatecheck.gatecheck.language
 
-import jdk.internal.jline.internal.Log.warn
 import org.springframework.stereotype.Service
 
 @Service
@@ -34,7 +33,7 @@ class LanguageProvider {
     fun addTranslation(identifier: String, translations: Set<Translation>) {
         for (i in translations) {
             if (!languages.containsKey(i.languageCode)) {
-                warn("WARNING: ${i.languageCode} language does not exist. Creating it...")
+                println("\n\nWARNING: ${i.languageCode} language does not exist. Creating it...\n\n")
                 addLanguage(i.languageCode)
             }
 

@@ -9,5 +9,5 @@ import org.springframework.stereotype.Service
 class LanguageService @Autowired constructor(@Qualifier("languageDao") private val languageDao: LanguageDao) {
     fun getLanguages(): Set<String> = languageDao.getLanguages()
 
-    fun getLanguage(languageCode: String): Map<String, String> = languageDao.getLanguage(languageCode)
+    fun getLanguage(languageCode: String): Map<String, String>? = languageDao.getLanguage(languageCode)
 }

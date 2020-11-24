@@ -1,5 +1,7 @@
 package com.gatecheck.gatecheck.api
 
+import com.gatecheck.gatecheck.api.template.DefaultLanguageResponse
+import com.gatecheck.gatecheck.api.template.SuccessResponse
 import com.gatecheck.gatecheck.service.LanguageService
 import com.gatecheck.gatecheck.utils.Routes
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,12 +14,13 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping(Routes.BASE + Routes.Assets.LANGUAGE)
 class LanguageController @Autowired constructor(private val languageService: LanguageService) {
     @GetMapping
-    fun getLanguages(): Set<String> {
-        return languageService.getLanguages()
+    fun getLanguages(): DefaultLanguageResponse {
+        return DefaultLanguageResponse(true, languageCodes = languageService.getLanguages())
     }
 
     @GetMapping(Routes.Assets.SINGLE_LANGUAGE_SELECT)
-    fun getLanguage(@PathVariable("language_code") languageCode: String): Map<String, String> {
-        return languageService.getLanguage(languageCode)
+    fun getLanguage(@PathVariable("language_code") languageCode: String): DefaultLanguageResponse {
+        val language = languageService.getLanguage(languageCode)
+        return DefaultLanguageResponse(language != null, language)
     }
 }
