@@ -2,7 +2,6 @@ package com.gatecheck.gatecheck.dao.user
 
 import com.gatecheck.gatecheck.api.template.UserUpdate
 import com.gatecheck.gatecheck.model.entity.Instructor
-import com.gatecheck.gatecheck.model.entity.Student
 import com.gatecheck.gatecheck.model.entity.User
 import com.gatecheck.gatecheck.repository.user.InstructorRepository
 import com.gatecheck.gatecheck.repository.user.ParentRepository

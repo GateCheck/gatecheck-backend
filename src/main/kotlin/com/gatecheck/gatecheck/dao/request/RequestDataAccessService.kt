@@ -12,7 +12,7 @@ class RequestDataAccessService @Autowired constructor(
         private val repository: RequestRepository
 ) : RequestDao {
     override fun getRequests(user: UUID, messages: Boolean, amount: Int, index: Int): List<Request> {
-        val requestsOfUser: List<Request>  = repository.findAllBySender(user)
+        val requestsOfUser: List<Request> = repository.findAllBySender(user)
         val requests: MutableList<Request> = mutableListOf()
 
         for (i in index..requestsOfUser.size) {

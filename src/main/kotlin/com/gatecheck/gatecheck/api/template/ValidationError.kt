@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
 data class ValidationError(val error: String) {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private val success = "false"
+
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private val errors: MutableList<String> = mutableListOf()
 
