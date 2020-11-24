@@ -13,12 +13,12 @@ data class Request @JsonCreator constructor(
         @Id val id: UUID,
         @JsonProperty val title: String,
         @JsonProperty val creationDate: Instant? = Clock.System.now(),
-        @JsonProperty val from: Instant,
-        @JsonProperty val to: Instant,
+        @JsonProperty val fromDate: Instant,
+        @JsonProperty val toDate: Instant,
         @JsonProperty val destination: String,
         @JsonProperty val details: String,
         @JsonProperty val status: RequestStatus? = RequestStatus.Pending,
-        @JsonProperty val replies: List<Message>? = listOf(),
+        @JsonProperty val replies: MutableList<Message>? = mutableListOf(),
         @JsonProperty var sender: UUID,
         @JsonProperty val receivers: Set<UUID>
 )

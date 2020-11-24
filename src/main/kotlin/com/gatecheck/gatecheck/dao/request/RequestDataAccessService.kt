@@ -11,11 +11,20 @@ import java.util.*
 class RequestDataAccessService @Autowired constructor(
         private val repository: RequestRepository
 ) : RequestDao {
-    override fun getRequests(user: UUID, Messages: Boolean, Amount: Int, Index: Int): Set<Request> {
-        TODO("Not yet implemented")
+    override fun getRequests(user: UUID, messages: Boolean, amount: Int, index: Int): List<Request> {
+        val requestsOfUser: List<Request>  = repository.findAllBySender(user)
+        val requests: MutableList<Request> = mutableListOf()
+
+        for (i in index..requestsOfUser.size) {
+            if (messages) requestsOfUser[i].replies?.clear()
+            requests.add(requestsOfUser[i])
+        }
+
+        return requests
     }
 
-    override fun addNewRequest(request: Request): Request {
-        TODO("Not yet implemented")
+    override fun addRequest(request: Request): Request {
+        repository.save(request)
+        return request
     }
 }

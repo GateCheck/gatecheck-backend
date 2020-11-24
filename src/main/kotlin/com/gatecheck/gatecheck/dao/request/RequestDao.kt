@@ -4,8 +4,7 @@ import com.gatecheck.gatecheck.model.Request
 import java.util.*
 
 interface RequestDao {
-    fun getRequests(user: UUID, Messages: Boolean, Amount: Int, Index: Int): Set<Request>
+    fun getRequests(user: UUID, messages: Boolean, amount: Int, index: Int): List<Request>
 
-    fun addNewRequest(request: Request): Request
-
+    fun addRequest(request: Request): Request
 }
