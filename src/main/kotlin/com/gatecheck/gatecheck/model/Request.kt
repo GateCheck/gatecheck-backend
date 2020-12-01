@@ -20,5 +20,5 @@ data class Request @JsonCreator constructor(
         @JsonProperty val status: RequestStatus? = RequestStatus.Pending,
         @JsonProperty val replies: MutableList<Message>? = mutableListOf(),
         @JsonProperty var sender: UUID,
-        @JsonProperty val receivers: Set<UUID>
+        @JsonProperty var receivers: Set<UUID>
 )
