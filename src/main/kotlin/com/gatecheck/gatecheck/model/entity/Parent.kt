@@ -17,7 +17,7 @@ class Parent @JsonCreator constructor(
         @Email(message = "Must provide valid email.") @JsonProperty email: String,
         @Size(min = 8, max = 32, message = "Password must be between 8 and 32 characters.") @JsonProperty password: String,
         @JsonProperty profilePath: String?,
-        @JsonProperty(required = false) language: String?,
+        @JsonProperty(required = false, defaultValue = "he") language: String?,
         @JsonProperty val children: Set<UUID>? = setOf()
 ) : User(
         id,
