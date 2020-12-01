@@ -30,13 +30,27 @@ class DatabaseUpdate<T>(val dataClass: Class<T>, identifier: UUID) {
         return this
     }
 
-    fun <V> addConditionalUpdate(fieldName: String, value: V, condition: (T?) -> Boolean): DatabaseUpdate<T> {
+    fun <V> addConditionalUpdateData(fieldName: String, value: V, condition: (T?) -> Boolean): DatabaseUpdate<T> {
         if (data == null && dataUnset) {
             data = mongoOperations.find(searchQuery, dataClass, collection)[0]
             dataUnset = false
         }
 
         if (condition(data)) {
+            update.set(fieldName, value)
+        }
+        return this
+    }
+
+    fun <V> addConditionalUpdate(fieldName: String, value: V, condition: () -> Boolean): DatabaseUpdate<T> {
+        if (condition()) {
+            update.set(fieldName, value)
+        }
+        return this
+    }
+
+    fun <V> addConditionalUpdate(fieldName: String, value: () -> V, condition: () -> Boolean): DatabaseUpdate<T> {
+        if (condition()) {
             update.set(fieldName, value)
         }
         return this

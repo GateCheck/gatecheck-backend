@@ -36,6 +36,6 @@ class UserController @Autowired constructor(private val userService: UserService
     @PutMapping(Routes.User.SINGLE_USER_SELECT)
     fun updateUser(@PathVariable userId: UUID, @RequestBody @NotNull @Validated user: UserUpdate): DefaultUserResponse {
         val update = userService.updateUser(userId, user)
-        return DefaultUserResponse(update.isPresent, update.orElse(null))
+        return DefaultUserResponse(update != null, update)
     }
 }

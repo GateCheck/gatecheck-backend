@@ -9,6 +9,7 @@ import com.gatecheck.gatecheck.repository.user.StudentRepository
 import com.gatecheck.gatecheck.repository.user.UserRepository
 import com.gatecheck.gatecheck.security.CurrentUser
 import com.gatecheck.gatecheck.service.EmailService
+import com.gatecheck.gatecheck.utils.DatabaseUpdate
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.mongodb.core.MongoOperations
 import org.springframework.data.mongodb.core.query.Criteria
@@ -23,9 +24,7 @@ class UserDataAccessService @Autowired constructor(
         private val repository: UserRepository,
         private val studentRepository: StudentRepository,
         private val instructorRepository: InstructorRepository,
-        private val parentRepository: ParentRepository,
         private val emailService: EmailService,
-        private val mongoOperations: MongoOperations,
         private val passwordEncoder: PasswordEncoder
 ) : UserDao {
     override fun getUser(): Optional<User> {
@@ -49,39 +48,44 @@ class UserDataAccessService @Autowired constructor(
         return CurrentUser.currentUser.dbUser
     }
 
-    override fun updateUser(updatedUser: UserUpdate): User {
-        val query = Query.query(Criteria.where("_id").`is`(CurrentUser.id))
-        val update = Update()
-                .set("username", updatedUser.username ?: CurrentUser.currentUser.dbUser.username)
-                .set("email", updatedUser.email ?: CurrentUser.currentUser.dbUser.email)
-                .set("language", updatedUser.language ?: CurrentUser.currentUser.dbUser.language)
+    override fun updateUser(updatedUser: UserUpdate): User? {
+        val databaseUpdate = DatabaseUpdate(User::class.java, CurrentUser.id)
+        val dbUser = CurrentUser.currentUser.dbUser
 
-        updatedUser.password?.let { update.set("password", passwordEncoder.encode(it)) }
-        if (CurrentUser.isInstructor && CurrentUser.isAdmin) {
-            if (updatedUser.school != null) update.set("school", updatedUser.school)
-        }
-
-        mongoOperations.updateFirst(query, update, "users")
-        return repository.findById(CurrentUser.id).get()
+        return databaseUpdate
+                .addUpdateQuery("username", updatedUser.username ?: dbUser.username)
+                .addUpdateQuery("email", updatedUser.language ?: dbUser.language)
+                .addUpdateQuery("language", updatedUser.email ?: dbUser.email)
+                .addConditionalUpdate("password", passwordEncoder.encode(updatedUser.password)) {
+                    updatedUser.password != null
+                }.addConditionalUpdate("school", updatedUser.school) {
+                    CurrentUser.isInstructor
+                            && CurrentUser.isAdmin
+                            && updatedUser.school != null
+                }.apply()
     }
 
-    override fun updateUser(userId: UUID, updatedUser: UserUpdate): Optional<User> {
-        if (!CurrentUser.isInstructor || !CurrentUser.isAdmin) return Optional.empty()
-        if (!repository.existsById(userId)) return Optional.empty()
-        val user: User? = repository.findById(userId).orElse(null)
-        val query = Query.query(Criteria.where("_id").`is`(userId))
-        val update = Update()
-                .set("name", updatedUser.name ?: user?.name)
-                .set("language", updatedUser.language ?: user?.language)
+    override fun updateUser(userId: UUID, updatedUser: UserUpdate): User? {
+        if (!CurrentUser.isInstructor || !CurrentUser.isAdmin) return null
+        if (!repository.existsById(userId)) return null
 
-        updatedUser.password?.let { update.set("password", passwordEncoder.encode(it)) }
         val isStudent = studentRepository.existsById(userId)
-        if (updatedUser.school != null && (isStudent || instructorRepository.existsById(userId))) {
-            if (isStudent) update.set("school", updatedUser.school.toList()[0])
-            else update.set("school", updatedUser.school)
-        }
+        val databaseUpdate = DatabaseUpdate(User::class.java, CurrentUser.id)
 
-        mongoOperations.updateFirst(query, update, "users")
-        return Optional.of(repository.findById(userId).get())
+        return databaseUpdate
+                .addUpdateQuery("language") {
+                    updatedUser.language ?: it?.language
+                }
+                .addUpdateQuery("name") {
+                    updatedUser.name ?: it?.name
+                }
+                .addConditionalUpdate("password", passwordEncoder.encode(updatedUser.password)) {
+                    updatedUser.password != null
+                }.addConditionalUpdate("school",
+                        if (isStudent) updatedUser.school?.toList()?.get(0) as Any
+                        else updatedUser.school
+                ) {
+                    updatedUser.school != null && (isStudent || instructorRepository.existsById(userId))
+                }.apply()
     }
 }

@@ -16,7 +16,7 @@ class UserService @Autowired constructor(@Qualifier("userDao") private val userD
 
     fun deleteUser(): User = userDao.deleteUser()
 
-    fun updateUser(updatedUser: UserUpdate): User = userDao.updateUser(updatedUser)
+    fun updateUser(updatedUser: UserUpdate): User? = userDao.updateUser(updatedUser)
 
-    fun updateUser(userId: UUID, updatedUser: UserUpdate): Optional<User> = userDao.updateUser(userId, updatedUser)
+    fun updateUser(userId: UUID, updatedUser: UserUpdate): User? = userDao.updateUser(userId, updatedUser)
 }
