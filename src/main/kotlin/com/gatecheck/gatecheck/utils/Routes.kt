@@ -27,6 +27,7 @@ object Routes {
         const val BASE = "/request"
         const val SINGLE_REQUEST_SELECT = "/{requestId}"
         const val MESSAGE = "/message"
+        const val SPECIFIC_MESSAGE = "$MESSAGE/{messageIndex}"
         const val STATUS = "/status/{statusType}"
 
         override fun toString(): String {
