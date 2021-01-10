@@ -21,6 +21,8 @@ abstract class User(
 ) {
     constructor(id: UUID, user: User) : this(id, user.name, user.username, user.email, user.password, user.profilePath, user.language)
 
+    @JsonProperty("data_type") val dataType = this::class.java.simpleName
+
     override fun toString(): String {
         return "${this::class.simpleName}(id=$id, name='$name', username='$username', email='$email', password='$password', profilePath=$profilePath)"
     }
