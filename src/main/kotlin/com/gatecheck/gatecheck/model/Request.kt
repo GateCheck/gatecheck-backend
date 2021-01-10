@@ -21,4 +21,6 @@ data class Request @JsonCreator constructor(
         @JsonProperty val replies: MutableList<Message>? = mutableListOf(),
         @JsonProperty var sender: UUID,
         @JsonProperty var receivers: Set<UUID>
-)
+) {
+    @JsonProperty("data_type") val dataType = this::class.java.simpleName
+}

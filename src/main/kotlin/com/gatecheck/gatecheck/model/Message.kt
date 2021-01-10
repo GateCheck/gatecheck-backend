@@ -10,4 +10,6 @@ data class Message @JsonCreator constructor(
         @JsonProperty val sendDate: Instant = Clock.System.now(),
         @JsonProperty val sender: UUID,
         @JsonProperty val text: String
-)
+) {
+    @JsonProperty("data_type") val dataType = this::class.java.simpleName
+}
