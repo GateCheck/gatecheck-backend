@@ -9,5 +9,5 @@ import org.springframework.stereotype.Service
 class EmailService @Autowired constructor(
         @Qualifier("emailDao") private val emailDao: EmailDao
 ) {
-    fun sendEmail(to: String, title: String, text: String) = emailDao.sendEmail(to, title, text)
+    fun sendEmail(to: String, title: String, text: String, isHtml: Boolean = false) = emailDao.sendEmail(to, title, text, isHtml)
 }
