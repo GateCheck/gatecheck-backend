@@ -14,7 +14,7 @@ import java.util.*
 @RequestMapping(Routes.BASE + Routes.User.BASE)
 class UserController @Autowired constructor(private val userService: UserService) {
     @GetMapping
-    fun getUser(@RequestParam(required = false) users: Array<UUID>?, @RequestParam(required = false) allUsers: Boolean?): DefaultUserResponse {
+    fun getUser(@RequestParam(required = false) users: Array<UUID>?, @PathVariable() @RequestParam(required = false) allUsers: Boolean?): DefaultUserResponse {
         return if (users == null && allUsers == null) {
             val user = userService.getUser()
             DefaultUserResponse(user.isPresent, user.orElse(null))
