@@ -49,6 +49,7 @@ class AuthDataAccessService @Autowired constructor(
         try {
             authManager.authenticate(UsernamePasswordAuthenticationToken(authRequest.username, authRequest.password))
         } catch (e: AuthenticationException) {
+            e.printStackTrace()
             throw ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password!")
         }
 
