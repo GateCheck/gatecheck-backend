@@ -22,5 +22,5 @@ data class Request @JsonCreator constructor(
         @JsonProperty var sender: UUID,
         @JsonProperty var receivers: Set<UUID>
 ) {
-    @JsonProperty("data_type") val dataType = this::class.java.simpleName
+    @JsonProperty("data_type") var dataType = this::class.java.simpleName
 }

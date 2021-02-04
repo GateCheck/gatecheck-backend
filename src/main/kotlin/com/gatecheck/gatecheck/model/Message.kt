@@ -11,5 +11,5 @@ data class Message @JsonCreator constructor(
         @JsonProperty val sender: UUID,
         @JsonProperty val text: String
 ) {
-    @JsonProperty("data_type") val dataType = this::class.java.simpleName
+    @JsonProperty("data_type") var dataType = this::class.java.simpleName
 }
