@@ -17,6 +17,10 @@ class RequestDataAccessService @Autowired constructor(
         val requestsOfUser: List<Request> = repository.findAllBySender(user)
         val requests: MutableList<Request> = mutableListOf()
 
+        if (requestsOfUser.isEmpty()) {
+            return requestsOfUser
+        }
+
         val iter: IntRange = when {
             all -> 0..requestsOfUser.size
             index + amount >= requestsOfUser.size -> index..requestsOfUser.size
