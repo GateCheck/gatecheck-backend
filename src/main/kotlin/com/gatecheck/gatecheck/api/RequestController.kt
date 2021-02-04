@@ -17,9 +17,10 @@ class RequestController @Autowired constructor(private val requestService: Reque
     fun getRequests(
             @RequestParam(required = false, defaultValue = "false") messages: Boolean = false,
             @RequestParam(required = false, defaultValue = "10") amount: Int = 10,
-            @RequestParam(required = false, defaultValue = "0") index: Int = 0
+            @RequestParam(required = false, defaultValue = "0") index: Int = 0,
+            @RequestParam(required = false, defaultValue = "false") all: Boolean = false
     ): DefaultRequestResponse {
-        return DefaultRequestResponse(true, requests = requestService.getRequests(CurrentUser.id, messages, amount, index))
+        return DefaultRequestResponse(true, requests = requestService.getRequests(CurrentUser.id, messages, amount, index, all))
     }
 
     @PostMapping
