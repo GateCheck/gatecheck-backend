@@ -10,7 +10,7 @@ import java.util.*
 
 @Document(collection = "requests")
 data class Request @JsonCreator constructor(
-        @Id val id: UUID,
+        @Id val id: UUID = UUID.randomUUID(),
         @JsonProperty val title: String,
         @JsonProperty val creationDate: Instant? = Clock.System.now(),
         @JsonProperty val fromDate: Instant,
