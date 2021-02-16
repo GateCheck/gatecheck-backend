@@ -1,15 +1,15 @@
 package com.gatecheck.gatecheck.dao.user
 
+import com.gatecheck.gatecheck.service.UserDeletionRequestService
 import com.gatecheck.gatecheck.api.template.UserUpdate
+import com.gatecheck.gatecheck.model.UserDeletionRequest
 import com.gatecheck.gatecheck.model.entity.Instructor
 import com.gatecheck.gatecheck.model.entity.User
-import com.gatecheck.gatecheck.repository.user.InstructorRepository
-import com.gatecheck.gatecheck.repository.user.ParentRepository
-import com.gatecheck.gatecheck.repository.user.StudentRepository
-import com.gatecheck.gatecheck.repository.user.UserRepository
+import com.gatecheck.gatecheck.repository.user.*
 import com.gatecheck.gatecheck.security.CurrentUser
 import com.gatecheck.gatecheck.service.EmailService
 import com.gatecheck.gatecheck.utils.DatabaseUpdate
+import com.gatecheck.gatecheck.utils.Routes
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.mongodb.core.MongoOperations
 import org.springframework.data.mongodb.core.query.Criteria
@@ -24,6 +24,7 @@ class UserDataAccessService @Autowired constructor(
         private val repository: UserRepository,
         private val studentRepository: StudentRepository,
         private val instructorRepository: InstructorRepository,
+        private val userDeletionRequestService: UserDeletionRequestService,
         private val emailService: EmailService,
         private val passwordEncoder: PasswordEncoder
 ) : UserDao {
@@ -44,7 +45,15 @@ class UserDataAccessService @Autowired constructor(
     }
 
     override fun deleteUser(): User {
-        //emailService.sendEmail("oeharel@gmail.com", "hi", "bye") not working
+        val user = CurrentUser.currentUser.dbUser;
+        val id: UUID = UUID.randomUUID();
+
+        userDeletionRequestService.insertRequest(UserDeletionRequest(id, user.id));
+
+        val deleteUrl: String = Routes.HOST + Routes.BASE + Routes.UserDeletion + "?id=" + id;
+        val cancelUrl: String = Routes.HOST + Routes.BASE + Routes.UserDeletion + Routes.UserDeletion.CANCEL + "?id=" + id;
+        val emailBody: String = "To delete account: " + deleteUrl + "\r\nTo cancel deletion" + cancelUrl;
+        emailService.sendEmail(user.email, "user deletion", emailBody);
         return CurrentUser.currentUser.dbUser
     }
 
