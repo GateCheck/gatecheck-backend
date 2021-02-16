@@ -20,8 +20,9 @@ class UserDeletionController @Autowired constructor(
         userRepository.deleteById(request.get().userId);
         userDeletionRequestService.deleteRequest(id);
     }
+
     @GetMapping(Routes.UserDeletion.CANCEL)
-    fun cancelDeletion(@RequestParam(required = true) id: UUID){
+    fun cancelDeletion(@RequestParam(required = true) id: UUID) {
         userDeletionRequestService.deleteRequest(id);
     }
 }
