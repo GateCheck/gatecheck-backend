@@ -52,7 +52,7 @@ class UserDataAccessService @Autowired constructor(
 
         val deleteUrl: String = Routes.HOST + Routes.BASE + Routes.UserDeletion + "?id=" + id;
         val cancelUrl: String = Routes.HOST + Routes.BASE + Routes.UserDeletion + Routes.UserDeletion.CANCEL + "?id=" + id;
-        val emailBody: String = "To delete account: " + deleteUrl + "\r\nTo cancel deletion" + cancelUrl;
+        val emailBody: String = "To delete account: " + deleteUrl + "\r\nTo cancel deletion: " + cancelUrl;
         emailService.sendEmail(user.email, "user deletion", emailBody);
         return CurrentUser.currentUser.dbUser
     }
@@ -63,8 +63,8 @@ class UserDataAccessService @Autowired constructor(
 
         return databaseUpdate
                 .addUpdateQuery("username", updatedUser.username ?: dbUser.username)
-                .addUpdateQuery("email", updatedUser.language ?: dbUser.language)
-                .addUpdateQuery("language", updatedUser.email ?: dbUser.email)
+                .addUpdateQuery("language", updatedUser.language ?: dbUser.language)
+                .addUpdateQuery("email", updatedUser.email ?: dbUser.email)
                 .addConditionalUpdate("password", passwordEncoder.encode(updatedUser.password)) {
                     updatedUser.password != null
                 }.addConditionalUpdate("school", updatedUser.school) {
