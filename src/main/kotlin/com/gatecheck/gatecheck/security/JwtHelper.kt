@@ -45,9 +45,9 @@ class JwtHelper(@Value("\${spring.auth.jwt.key.private}") private val secretStri
     }
 
     private fun createToken(claims: Map<String, Any>, subject: String, hours: Int = 10): String {
-        val tenHoursInMilliseconds = 1000 * 60 * 60 * hours
+        val hoursInMilliseconds = 1000 * 60 * 60 * hours
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(Date(System.currentTimeMillis()))
-                .setExpiration(Date(System.currentTimeMillis() + tenHoursInMilliseconds))
+                .setExpiration(Date(System.currentTimeMillis() + hoursInMilliseconds))
                 .signWith(SignatureAlgorithm.HS256, secretKey).compact()
     }
 

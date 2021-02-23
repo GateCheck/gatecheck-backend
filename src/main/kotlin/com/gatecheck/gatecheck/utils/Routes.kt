@@ -1,6 +1,7 @@
 package com.gatecheck.gatecheck.utils
 
 object Routes {
+    const val HOST="localhost"
     const val VERSION = 1
     const val BASE = "/api/v$VERSION"
 
@@ -8,6 +9,14 @@ object Routes {
         const val BASE = "/user"
         const val SINGLE_USER_SELECT = "/{userId}"
 
+        override fun toString(): String {
+            return BASE
+        }
+    }
+
+    object UserDeletion{
+        const val BASE="/userDeletion"
+        const val CANCEL="/cancel"
         override fun toString(): String {
             return BASE
         }
