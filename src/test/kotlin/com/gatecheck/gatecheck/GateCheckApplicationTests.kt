@@ -24,6 +24,7 @@ class GateCheckApplicationTests {
 				null,
 				null,
 				"school");
+		println(user);
 		val response=testRestTemplate.postForObject("http://"+Routes.HOST+Routes.BASE + Routes.Auth.BASE+Routes.Auth.REGISTER,user, Any::class.java);
 		println(response);
 	}

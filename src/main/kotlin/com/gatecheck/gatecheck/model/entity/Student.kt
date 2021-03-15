@@ -12,7 +12,7 @@ import javax.validation.constraints.Size
 @Document(collection = "users")
 @TypeAlias("student")
 class Student @JsonCreator constructor(
-        @JsonProperty id: UUID,
+        @JsonProperty id: UUID= UUID.randomUUID(),
         @JsonProperty name: String,
         @Size(min = 3, max = 16, message = "Name must be between 3 and 16 characters.") @JsonProperty username: String,
         @Email(message = "Must provide valid email.") @JsonProperty email: String,
