@@ -17,7 +17,12 @@ class UserController @Autowired constructor(private val userService: UserService
     fun getUser(@RequestParam(required = false) users: Array<UUID>?, @RequestParam(required = false) allUsers: Boolean?): DefaultUserResponse {
         return if (users == null && allUsers == null) {
             val user = userService.getUser()
-            DefaultUserResponse(user.isPresent, user.orElse(null))
+            if(user.isPresent){
+                val u=user.get();
+                u.password="";
+                DefaultUserResponse(true,u);
+            }
+            DefaultUserResponse(false,null);
         } else {
             DefaultUserResponse(true, users = userService.getUser(*users ?: arrayOf(), allUsers = allUsers ?: false))
         }
